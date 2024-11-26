@@ -12,12 +12,27 @@ def tokenize_dataset(text_dataset, tokenizer):
     Process the dataset and tokenize it.
     Return: list of tokenized ids.
     """
-    # TODO
-    pass
+    tokenized_ids = []
+    for item in text_dataset:
+        # Assuming each item in the dataset is a dict with 'instruction', 'input', and 'output' keys
+        instruction = item['instruction']
+        input_text = item['input']
+        output_text = item['output']
+        
+        # Format the text according to the template
+        templated_text = f"### Instruction: {instruction}\n### Input: {input_text}\n### Response: {output_text}"
+        
+        # Tokenize the text
+        tokenized_text = tokenizer.encode(templated_text)
+        
+        # Append the tokenized text to the list
+        tokenized_ids.append(tokenized_text)
+    
+    return tokenized_ids
 
 input_file_path = os.path.join(os.path.dirname(__file__), 'alpaca_gpt4_data_en.json')
 
-with open(input_file_path, 'r') as file:
+with open(input_file_path, 'r', encoding='utf-8') as file:
     text_dataset = json.load(file)
 
 tokenizer = tiktoken.get_encoding("gpt2")
