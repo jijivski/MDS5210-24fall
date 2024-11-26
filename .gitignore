@@ -4,6 +4,8 @@
 .vscode
 __pycache__/
 *.pkl
+!data/instruction_tuning/train.pkl
+!data/instruction_tuning/val.pkl
 *.pt
 *.pyc
 env/
