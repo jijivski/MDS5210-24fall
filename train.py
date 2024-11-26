@@ -254,6 +254,15 @@ def estimate_loss():
         for k in range(eval_iters):
             X, Y = get_batch(split)
             with ctx:
+                # print device of X and Y, says that not on same device, then make them allign
+                print('model.device',model.device)
+                try:
+                    print("Device of X:", X.device)
+                    print("Device of Y:", Y.device)
+                except:
+                    print('fail to have X.device')
+                X = X.to(model.device)
+                Y = Y.to(model.device)
                 logits, loss = model(X, Y)
             losses[k] = loss.item()
         out[split] = losses.mean()
