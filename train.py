@@ -30,8 +30,8 @@ from torch.distributed import init_process_group, destroy_process_group
 from model import GPTConfig, GPT
 
 # # Avoid GPU version conflict (For Kaggle GPU only). Comment below two lines if you use local machine in order to speed up training.
-# import torch._dynamo.config
-# torch._dynamo.config.suppress_errors = True
+import torch._dynamo.config
+torch._dynamo.config.suppress_errors = True
 
 
 # -----------------------------------------------------------------------------
