@@ -216,8 +216,18 @@ elif optimization_method == "lora":
     # reference: https://github.com/microsoft/LoRA
     raise NotImplementedError("LoRA is not implemented yet.")
 elif optimization_method == "badam":
-    # TODO implement BAdam.
+    # implement BAdam.
     # reference: https://github.com/Ledzy/BAdam
+    from badam import BlockOptimizer
+    original_optimizer = model.configure_optimizers(weight_decay, learning_rate, (beta1, beta2), device_type)
+    optimizer = BlockOptimizer(
+        base_optimizer=original_optimizer, # can be any torch.Optimizer
+        named_parameters_list=list(model.named_parameters()), 
+        switch_block_every=100, # switch to the new block every 50 updates, the $K$ Adam steps in paper. It can be set adaptively by $K = n/(BD)$, where $n$ is the number of training data points, $B$ is the batch size, and $D$ is the number of blocks in BAdam; see "Hyperparameter Suggestion" section for a detailed explaination about setting this hyperparameter. 
+        switch_mode="random", # update order of blocks, one can choose "random" (random reshuffling update order), "ascending" (update from input layer to output layer), or "descending" (update from output layer to input layer). The default is "random".
+        verbose=2 # information level, will print trainable parameters when setting to 2
+    )
+
     raise NotImplementedError("BAdam is not implemented yet.")
 
 if init_from == 'resume':

@@ -33,7 +33,9 @@ import pickle
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Navigate up to the project root and then to the data/instruction_tuning directory
-data_dir = os.path.join(script_dir, '..', 'data', 'instruction_tuning')
+# data_dir = os.path.join(script_dir, '..', 'data', 'instruction_tuning')
+data_dir = os.path.join(script_dir, 'data', 'instruction_tuning')
+
 
 # Construct the full path to the 'train.pkl' and 'val.pkl' files
 train_file_path = os.path.join(data_dir, 'train.pkl')
